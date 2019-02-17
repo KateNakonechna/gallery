@@ -1,0 +1,19 @@
+<header class="header">
+  <div class="container">
+      <img class="logo" src="/assets/img/gallery2_logo_big.png" alt="logo">
+      <ul class="list">
+        <li class="item" *ngIf="(user|async)?.uid">
+          <a class="link" routerLink="/gallery"> Image Gallery </a>
+        </li>
+        <li class="item" *ngIf="(user|async)?.uid">
+          <a class="link" routerLink="/upload">Upload</a>
+        </li>
+      <li class="item" *ngIf="!(user|async)?.uid">
+        <a class="link" routerLink="/login">Sign up/Login</a>
+      </li>
+      <li class="item" *ngIf="(user|async)?.uid">
+        <a class="link" href="#" (click)="logOut()"> Log out</a>
+      </li>
+    </ul>
+  </div>
+</header>
