@@ -16,20 +16,15 @@ export class HeaderComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router
   ) {
-
-
-
   }
 
   ngOnInit() {
-    this.user = this.authService.authUser()
-  }
-  logOut(){
-    this.authService.logout().then(onResolve=> this.router.navigate['/'])
+    this.user = this.authService.authUser();
   }
 
-
-
+  logOut() {
+    this.authService.logout().then(onResolve => this.router.navigate['/']);
+  }
 
 
 }

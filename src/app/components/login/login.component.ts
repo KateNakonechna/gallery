@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
-  get f() {
+  get controls() {
     return this.loginForm.controls;
   }
 
@@ -31,20 +31,25 @@ export class LoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = this.fb.group({
-      email: [null, [
-        Validators.required, Validators.email
+      email: [null, [Validators.required, Validators.email
       ]],
       password: ['', [Validators.required, Validators.minLength(6)]],
 
     });
   }
 
-  signIn() {
+  async signIn(): Promise<void> {
     this.submitted = true;
     const {email, password} = this.loginForm.value;
-    this.authService.login(email, password)
-      .then(resolve => this.router.navigate(['/gallery'])
-        .catch(error => this.errorMsg = error.message));
-    // console.log(this.loginForm.value.email, this.loginForm.value.password);
+
+    if (this.loginForm.valid) {
+      const result = await this.authService.login(email, password);
+
+      if (result.error) {
+        this.errorMsg = result.error;
+      }
+      this.router.navigate(['/gallery']);
+    }
   }
+
 }

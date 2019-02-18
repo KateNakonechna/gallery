@@ -10,7 +10,7 @@ import {UserService} from './user.service';
 })
 export class AuthenticationService {
 
-   user: Observable<firebase.User>;
+  user: Observable<firebase.User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -28,12 +28,11 @@ export class AuthenticationService {
     secondName: string): Promise<any> {
 
     try {
-      const value: firebase.auth.UserCredential = await this.firebaseAuth
+      const userInfo: firebase.auth.UserCredential = await this.firebaseAuth
         .auth
         .createUserWithEmailAndPassword(email, password);
-      const uid: string = value.user.uid;
-      // const user = new User(email, firstName, secondName);
-      // console.log(user);
+
+      const uid: string = userInfo.user.uid;
       this.userService.addUser({uid, email, firstName, secondName});
       console.log('Success');
 
@@ -42,14 +41,18 @@ export class AuthenticationService {
 
       return {error: msg};
     }
-
-
   }
 
 
-  login(email: string, password: string) {
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  async login(email: string, password: string) {
+    try {
+      await this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    } catch (err) {
+      const msg = err.message;
+      return {error: msg};
+    }
   }
+
 
   logout() {
     return this.firebaseAuth.auth.signOut();

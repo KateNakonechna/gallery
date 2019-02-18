@@ -11,7 +11,7 @@ import {confirmPassword} from '../../helpers/confirmPassword.helper';
 })
 export class RegistrationComponent implements OnInit {
   submitted = false;
-  error: string;
+  error: string = '';
 
   registrationForm: FormGroup;
 
@@ -20,7 +20,7 @@ export class RegistrationComponent implements OnInit {
   ) {
   }
 
-  get f() {
+  get controls() {
     return this.registrationForm.controls;
   }
 
@@ -36,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, {
-      validator:  confirmPassword('password', 'confirmPassword')
+      validator: confirmPassword('password', 'confirmPassword')
     });
   }
 
