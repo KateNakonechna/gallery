@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import * as firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {User} from '../models/user.model';
@@ -10,43 +10,36 @@ import {UserService} from './user.service';
 })
 export class AuthenticationService {
 
-  user: Observable<firebase.User>;
+  firebaseUser: Observable<firebase.User>;
+  user:Observable<User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
-    private userService: UserService
+    private firebaseApiUserService: UserService
   ) {
 
-    this.user = firebaseAuth.authState;
+  this.firebaseUser = firebaseAuth.authState;
   }
 
 
-  async signup(
-    email: string,
-    password: string,
-    firstName: string,
-    secondName: string): Promise<any> {
+  async signup(user: User): Promise<any> {
 
     try {
-      const userInfo: firebase.auth.UserCredential = await this.firebaseAuth
-        .auth
-        .createUserWithEmailAndPassword(email, password);
-
-      const uid: string = userInfo.user.uid;
-      this.userService.addUser({uid, email, firstName, secondName});
-      console.log('Success');
+        await this.firebaseAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
 
     } catch (err) {
       const msg = err.message;
 
       return {error: msg};
     }
+
   }
 
 
-  async login(email: string, password: string) {
+  async login(email:string, password:string) {
     try {
-      await this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+      await this.firebaseAuth.auth.signInWithEmailAndPassword(email,password);
+      
     } catch (err) {
       const msg = err.message;
       return {error: msg};
@@ -59,7 +52,13 @@ export class AuthenticationService {
   }
 
   authUser() {
-    return this.user;
+    return this.firebaseUser;
   }
+
+   addUser(){
+   return this.user
+}
+
+
 
 }

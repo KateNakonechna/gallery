@@ -23,6 +23,9 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {RegistrationComponent} from './components/registration/registration.component';
 import {EntranceComponent} from './components/entrance/entrance.component';
 import {HomeComponent} from './components/home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import {HomeComponent} from './components/home/home.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-   AngularFirestoreModule.enablePersistence()
+   AngularFirestoreModule.enablePersistence(),
+   BrowserAnimationsModule, 
+    ToastrModule.forRoot() 
   ],
   providers: [
     AuthenticationGuard,

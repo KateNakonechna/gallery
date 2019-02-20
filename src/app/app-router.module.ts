@@ -7,6 +7,7 @@ import {LoginComponent} from './components/login/login.component';
 import {AuthenticationGuard} from './guards/authentication.guard';
 import {EntranceComponent} from './components/entrance/entrance.component';
 import {HomeComponent} from './components/home/home.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  
 
   },
   {
@@ -36,9 +38,14 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'login',
-    component: EntranceComponent,
+    path: 'register',
+    component: RegistrationComponent,
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  
 
 
 ];

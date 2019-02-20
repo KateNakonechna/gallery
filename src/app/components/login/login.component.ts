@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication.service';
 import {Router} from '@angular/router';
 
+import { User } from 'src/app/models/user.model';
+
 
 @Component({
   selector: 'app-login',
@@ -44,11 +46,11 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.valid) {
       const result = await this.authService.login(email, password);
+      this.router.navigate(['/gallery']);
 
       if (result.error) {
         this.errorMsg = result.error;
       }
-      this.router.navigate(['/gallery']);
     }
   }
 
