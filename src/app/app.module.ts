@@ -49,8 +49,8 @@ import { ToastrModule } from 'ngx-toastr';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-   AngularFirestoreModule.enablePersistence(),
-   BrowserAnimationsModule, 
+    AngularFirestoreModule.enablePersistence(),
+    BrowserAnimationsModule, 
     ToastrModule.forRoot() 
   ],
   providers: [

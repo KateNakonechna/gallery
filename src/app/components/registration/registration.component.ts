@@ -53,23 +53,29 @@ export class RegistrationComponent implements OnInit {
     this.submitted = true;
     const {email, password, firstName, lastName} = this.registrationForm.value;
     if (this.registrationForm.valid) {
-      const result = await this.authService.signup({email,password,firstName,lastName});
-
+  
+     var result = await this.authService.signup({email,password,firstName,lastName});
+    
      await this.userService.addUser({email,password,firstName,lastName});
     
      this.registrationForm.reset();
 
-     await this.toastr.success('Success', 'You have successfully registered, please login');
     
-     this.router.navigate(['/login']);
-
-
+     }
+    
       if (result.error) {
         this.error = result.error;
+      }
+      else{
+
+      this.toastr.success('Success', 'You have successfully registered, please login');
+      this.router.navigate(['/login']);
+      this.router.navigate(['/login']);
       }
 
     }
   }
+  
 
-}
+
 

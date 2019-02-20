@@ -11,7 +11,7 @@ import {UserService} from './user.service';
 export class AuthenticationService {
 
   firebaseUser: Observable<firebase.User>;
-  user:Observable<User>;
+  user: BehaviorSubject<User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
@@ -22,7 +22,7 @@ export class AuthenticationService {
   }
 
 
-  async signup(user: User): Promise<any> {
+  async signup(user: User)  {
 
     try {
         await this.firebaseAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
@@ -32,6 +32,8 @@ export class AuthenticationService {
 
       return {error: msg};
     }
+
+    this.addUser();
 
   }
 

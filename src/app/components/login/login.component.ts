@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.valid) {
       const result = await this.authService.login(email, password);
+
       this.router.navigate(['/gallery']);
 
       if (result.error) {
