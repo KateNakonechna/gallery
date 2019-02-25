@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   title = 'gallery';
   user: Observable<firebase.User>;
 
+
   constructor(
     private authService: AuthenticationService,
     private router: Router
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut() {
+    
     this.authService.logout().then(onResolve => this.router.navigate['/']);
   }
 

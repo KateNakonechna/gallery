@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {User} from '../models/user.model';
 import {UserService} from './user.service';
+import {FirebaseUserService} from './firebase-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,37 +12,45 @@ import {UserService} from './user.service';
 export class AuthenticationService {
 
   firebaseUser: Observable<firebase.User>;
+  
   user: BehaviorSubject<User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
-    private firebaseApiUserService: UserService
+    private userService: UserService,
+    private firebaseUserService: FirebaseUserService
   ) {
-
-  this.firebaseUser = firebaseAuth.authState;
+    this.firebaseUser = firebaseAuth.authState;
   }
 
 
   async signup(user: User)  {
 
     try {
-        await this.firebaseAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
-
+      await this.firebaseAuth.auth.createUserWithEmailAndPassword(user.email, user.password);
+      this.firebaseUserService.addUser(user)
+      // move here user adding to the firebase service
+      
     } catch (err) {
       const msg = err.message;
 
       return {error: msg};
     }
-
-    this.addUser();
-
   }
 
 
-  async login(email:string, password:string) {
+  async login(email: string, password: string) {
+
     try {
-      await this.firebaseAuth.auth.signInWithEmailAndPassword(email,password);
-      
+     const userInfo =  await this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+     console.log(userInfo)
+     const uid: string = userInfo.user.uid;
+     this.firebaseUserService.getUser(uid);
+     
+      // todo: after success
+      // 1. get a uid from firebase user
+      // 2. find a user with getUser method of firebaseUser service
+      // 3. set the user to behaviour subject
     } catch (err) {
       const msg = err.message;
       return {error: msg};
@@ -53,14 +62,10 @@ export class AuthenticationService {
     return this.firebaseAuth.auth.signOut();
   }
 
-  authUser() {
+   authUser() {
     return this.firebaseUser;
-  }
-
-   addUser(){
-   return this.user
+  
 }
-
 
 
 }

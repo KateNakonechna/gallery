@@ -17,7 +17,7 @@
         <a class="link" routerLink="/login">Login</a>
       </li>
         <li class="item" *ngIf="(user|async)?.uid">
-        <a class="link" href="#" (click)="logOut()"> Log out</a>
+        <a class="link" href="#" (click)="logOut()">Log out</a>
       </li>
   
     </ul>
